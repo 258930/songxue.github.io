@@ -64,6 +64,35 @@
                 transform: scale(1.5) !important;
                 opacity: 0 !important;
             }
+            .emoji-item {
+                transition: all 0.2s ease;
+                cursor: pointer;
+            }
+            .emoji-item:hover {
+                transform: scale(1.1);
+            }
+            .carousel-item {
+                display: none;
+                animation: fadeIn 0.5s ease-in-out;
+            }
+            .carousel-item.active {
+                display: block;
+            }
+            .quiz-option {
+                transition: all 0.3s ease;
+                cursor: pointer;
+            }
+            .quiz-option:hover {
+                background-color: rgba(255, 133, 162, 0.1);
+            }
+            .quiz-option.correct {
+                background-color: rgba(6, 214, 160, 0.2);
+                border-color: #06D6A0;
+            }
+            .quiz-option.incorrect {
+                background-color: rgba(255, 107, 107, 0.2);
+                border-color: #ff6b6b;
+            }
         }
 
         @keyframes float {
@@ -81,158 +110,354 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-light to-pink-50 min-h-screen overflow-x-hidden font-cute text-dark">
-    <!-- 漂浮装饰元素 -->
-    <div class="fixed top-10 left-10 w-16 h-16 rounded-full bg-primary/20 float hidden md:block"></div>
-    <div class="fixed top-40 right-20 w-12 h-12 rounded-full bg-secondary/30 float-delay-1 hidden md:block"></div>
-    <div class="fixed bottom-20 left-20 w-20 h-20 rounded-full bg-yellow-200/40 float-delay-2 hidden md:block"></div>
-    <div class="fixed top-1/3 right-1/4 w-10 h-10 rounded-full bg-green-200/30 float hidden md:block"></div>
-    <div class="fixed bottom-40 right-10 w-14 h-14 rounded-full bg-accent/30 float-delay-3 hidden md:block"></div>
+<!-- 漂浮装饰元素 -->
+<div class="fixed top-10 left-10 w-16 h-16 rounded-full bg-primary/20 float hidden md:block"></div>
+<div class="fixed top-40 right-20 w-12 h-12 rounded-full bg-secondary/30 float-delay-1 hidden md:block"></div>
+<div class="fixed bottom-20 left-20 w-20 h-20 rounded-full bg-yellow-200/40 float-delay-2 hidden md:block"></div>
+<div class="fixed top-1/3 right-1/4 w-10 h-10 rounded-full bg-green-200/30 float hidden md:block"></div>
+<div class="fixed bottom-40 right-10 w-14 h-14 rounded-full bg-accent/30 float-delay-3 hidden md:block"></div>
 
-    <!-- 音乐控制 -->
-    <div class="fixed top-4 right-4 z-30 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md flex items-center gap-2">
-        <button id="musicToggle" class="w-10 h-10 rounded-full bg-primary/90 text-white flex items-center justify-center hover:bg-primary transition-colors">
-            <i class="fa fa-music"></i>
-        </button>
-        <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.5" 
-               class="w-24 accent-primary hidden md:block">
+<!-- 音乐控制 -->
+<div class="fixed top-4 right-4 z-30 bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md flex items-center gap-2">
+    <button id="musicToggle" class="w-10 h-10 rounded-full bg-primary/90 text-white flex items-center justify-center hover:bg-primary transition-colors">
+        <i class="fa fa-music"></i>
+    </button>
+    <input type="range" id="volumeControl" min="0" max="1" step="0.1" value="0.5"
+           class="w-24 accent-primary hidden md:block">
+</div>
+<audio id="backgroundMusic" loop>
+    <source src="https://music.163.com/song/media/outer/url?id=399354374.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container mx-auto px-4 py-12 relative z-10">
+    <!-- 标题区域 -->
+    <div class="text-center mb-12">
+        <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-primary text-shadow mb-4">
+            嘿，宋雪女士今天辛苦啦！
+        </h1>
+        <p class="text-[clamp(1rem,2vw,1.25rem)] text-dark/80 max-w-lg mx-auto">
+            知道你今天一定很累了，特意准备了个小惊喜给你~
+        </p>
     </div>
-    <audio id="backgroundMusic" loop>
-        <source src="https://music.163.com/song/media/outer/url?id=399354374.mp3" type="audio/mpeg">
-    </audio>
 
-    <div class="container mx-auto px-4 py-12 relative z-10">
-        <!-- 标题区域 -->
-        <div class="text-center mb-12">
-            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-primary text-shadow mb-4">
-                嘿，宋雪女士今天辛苦啦！
-            </h1>
-            <p class="text-[clamp(1rem,2vw,1.25rem)] text-dark/80 max-w-lg mx-auto">
-                知道你今天一定很累了，特意准备了个小惊喜给你~
+    <!-- 主要内容区 -->
+    <div class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 transition-all duration-300 hover:shadow-2xl">
+        <div class="text-center mb-8">
+            <div class="inline-block p-4 rounded-full bg-primary/10 mb-4">
+                <i class="fa fa-heart text-4xl text-primary bounce-slow"></i>
+            </div>
+            <p class="text-lg md:text-xl leading-relaxed">
+                不管今天遇到了什么困难，你都已经很棒地坚持过来了！<br>
+                累了就好好休息一下，别给自己太大压力呀~
             </p>
         </div>
 
-        <!-- 主要内容区 -->
-        <div class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 transition-all duration-300 hover:shadow-2xl">
-            <div class="text-center mb-8">
-                <div class="inline-block p-4 rounded-full bg-primary/10 mb-4">
-                    <i class="fa fa-heart text-4xl text-primary bounce-slow"></i>
-                </div>
-                <p class="text-lg md:text-xl leading-relaxed">
-                    不管今天遇到了什么困难，你都已经很棒地坚持过来了！<br>
-                    累了就好好休息一下，别给自己太大压力呀~
-                </p>
-            </div>
-
-            <!-- 互动按钮区（第一行） -->
-            <div class="grid grid-cols-2 gap-4 md:gap-6 mb-6">
-                <button id="complimentBtn" class="bg-primary/90 hover:bg-primary text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-star mr-2"></i>夸夸我
-                </button>
-                <button id="jokeBtn" class="bg-secondary/90 hover:bg-secondary text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-smile-o mr-2"></i>讲个笑话
-                </button>
-                <button id="motivateBtn" class="bg-green-400/90 hover:bg-green-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-lightbulb-o mr-2"></i>加油语录
-                </button>
-                <button id="cuteBtn" class="bg-yellow-300/90 hover:bg-yellow-300 text-dark py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-paw mr-2"></i>可爱暴击
-                </button>
-            </div>
-
-            <!-- 新增互动按钮（第二行） -->
-            <div class="grid grid-cols-2 gap-4 md:gap-6 mb-8">
-                <button id="blessingBtn" class="bg-fresh/90 hover:bg-fresh text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-sun-o mr-2"></i>每日小确幸
-                </button>
-                <button id="bubbleBtn" class="bg-accent/90 hover:bg-accent text-dark py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-circle-o mr-2"></i>戳泡泡游戏
-                </button>
-                <button id="cardBtn" class="bg-purple-400/90 hover:bg-purple-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-id-card-o mr-2"></i>专属卡片
-                </button>
-                <button id="shareBtn" class="bg-blue-400/90 hover:bg-blue-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
-                    <i class="fa fa-share-alt mr-2"></i>分享快乐
-                </button>
-            </div>
-
-            <!-- 结果显示区 -->
-            <div id="resultArea" class="min-h-[150px] flex items-center justify-center p-6 rounded-2xl bg-light/50 transition-all duration-500">
-                <p class="text-center text-gray-500" id="resultText">点击上面的按钮，看看有什么惊喜吧~</p>
-            </div>
+        <!-- 互动按钮区（第一行） -->
+        <div class="grid grid-cols-2 gap-4 md:gap-6 mb-6">
+            <button id="complimentBtn" class="bg-primary/90 hover:bg-primary text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-star mr-2"></i>夸夸我
+            </button>
+            <button id="jokeBtn" class="bg-secondary/90 hover:bg-secondary text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-smile-o mr-2"></i>讲个笑话
+            </button>
+            <button id="motivateBtn" class="bg-green-400/90 hover:bg-green-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-lightbulb-o mr-2"></i>加油语录
+            </button>
+            <button id="cuteBtn" class="bg-yellow-300/90 hover:bg-yellow-300 text-dark py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-paw mr-2"></i>可爱暴击
+            </button>
         </div>
 
-        <!-- 泡泡游戏容器（默认隐藏） -->
-        <div id="bubbleGame" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold text-dark">戳泡泡小游戏 <span class="text-sm opacity-70">(点击泡泡得分)</span></h3>
-                <div class="flex gap-4">
-                    <span>得分: <span id="bubbleScore" class="font-bold text-primary">0</span></span>
-                    <button id="closeBubbleGame" class="text-gray-500 hover:text-dark">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-            </div>
-            <div id="bubbleContainer" class="w-full h-64 md:h-80 bg-secondary/10 rounded-2xl relative overflow-hidden">
-                <div class="absolute inset-0 flex items-center justify-center text-gray-400" id="bubbleInstruction">
-                    点击开始游戏~
-                </div>
-            </div>
+        <!-- 互动按钮区（第二行） -->
+        <div class="grid grid-cols-2 gap-4 md:gap-6 mb-6">
+            <button id="blessingBtn" class="bg-fresh/90 hover:bg-fresh text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-sun-o mr-2"></i>每日小确幸
+            </button>
+            <button id="bubbleBtn" class="bg-accent/90 hover:bg-accent text-dark py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-circle-o mr-2"></i>戳泡泡游戏
+            </button>
+            <button id="cardBtn" class="bg-purple-400/90 hover:bg-purple-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-id-card-o mr-2"></i>专属卡片
+            </button>
+            <button id="emojiBtn" class="bg-pink-300/90 hover:bg-pink-300 text-dark py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-smile-o mr-2"></i>表情包库
+            </button>
         </div>
 
-        <!-- 专属卡片（默认隐藏） -->
-        <div id="cardContainer" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
-            <div class="flex justify-end">
-                <button id="closeCard" class="text-gray-500 hover:text-dark">
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
-            <div class="text-center py-6">
-                <div class="inline-block p-3 rounded-full bg-primary/20 mb-4">
-                    <i class="fa fa-heart text-3xl text-primary"></i>
-                </div>
-                <h3 class="text-2xl font-bold text-primary mb-4">宋雪的专属卡片</h3>
-                <div id="cardContent" class="text-lg leading-relaxed mb-6">
-                    今天也是超棒的一天！<br>
-                    记得给自己一点奖励哦~
-                </div>
-                <button id="refreshCard" class="bg-primary/20 hover:bg-primary/30 text-primary py-2 px-6 rounded-full transition-colors">
-                    换一张卡片
-                </button>
-            </div>
+        <!-- 新增互动按钮（第三行） -->
+        <div class="grid grid-cols-2 gap-4 md:gap-6 mb-8">
+            <button id="galleryBtn" class="bg-blue-300/90 hover:bg-blue-300 text-dark py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-picture-o mr-2"></i>图片轮播
+            </button>
+            <button id="quizBtn" class="bg-indigo-400/90 hover:bg-indigo-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-question-circle mr-2"></i>互动问答
+            </button>
+            <button id="moodBtn" class="bg-teal-400/90 hover:bg-teal-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-heart-o mr-2"></i>心情记录
+            </button>
+            <button id="shareBtn" class="bg-blue-400/90 hover:bg-blue-400 text-white py-3 px-4 rounded-2xl shadow-md transition-all duration-300 transform hover:scale-105">
+                <i class="fa fa-share-alt mr-2"></i>分享快乐
+            </button>
         </div>
 
-        <!-- 底部信息 -->
-        <div class="text-center text-dark/60 text-sm">
-            <p>希望这个小页面能给你带来一点点快乐 ❤️</p>
-            <p class="mt-2">累了就早点休息，明天又是美好的一天呀~</p>
+        <!-- 结果显示区 -->
+        <div id="resultArea" class="min-h-[150px] flex items-center justify-center p-6 rounded-2xl bg-light/50 transition-all duration-500">
+            <p class="text-center text-gray-500" id="resultText">点击上面的按钮，看看有什么惊喜吧~</p>
         </div>
     </div>
 
-    <!-- 可爱元素容器 -->
-    <div id="cuteElementsContainer" class="fixed inset-0 pointer-events-none z-20"></div>
+    <!-- 泡泡游戏容器（默认隐藏） -->
+    <div id="bubbleGame" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold text-dark">戳泡泡小游戏 <span class="text-sm opacity-70">(点击泡泡得分)</span></h3>
+            <div class="flex gap-4">
+                <span>得分: <span id="bubbleScore" class="font-bold text-primary">0</span></span>
+                <button id="closeBubbleGame" class="text-gray-500 hover:text-dark">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div id="bubbleContainer" class="w-full h-64 md:h-80 bg-secondary/10 rounded-2xl relative overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center text-gray-400" id="bubbleInstruction">
+                点击开始游戏~
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // 数据内容（大幅扩充）
-        const compliments = [
-            "你笑起来的时候，眼睛里像有星星在闪烁，超治愈的！",
-            "今天的你也超有魅力，连走路的样子都带着自信的光芒~",
-            "你的共情能力真的很强，和你聊天总能被温柔对待",
-            "你总是能注意到别人忽略的细节，这点真的很让人佩服",
-            "每次和你相处都觉得时间过得好快，你是个自带快乐磁场的人吧",
-            "你的审美真好，不管是穿衣还是选东西都特别有品味",
-            "你认真做事的时候特别专注，那种劲头特别吸引人",
-            "能认识你真的很幸运，你总能给身边的人带来温暖",
-            "你的声音好好听，尤其是笑起来的时候，像小铃铛一样",
-            "你处理问题的方式总能让人觉得很舒服，特别有条理",
-            "就算是疲惫的时候，你也会努力保持微笑，真的很坚强",
-            "你分享的东西都很有意思，总能发现生活中的小美好"
-        ];
+    <!-- 专属卡片（默认隐藏） -->
+    <div id="cardContainer" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
+        <div class="flex justify-end">
+            <button id="closeCard" class="text-gray-500 hover:text-dark">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="text-center py-6">
+            <div class="inline-block p-3 rounded-full bg-primary/20 mb-4">
+                <i class="fa fa-heart text-3xl text-primary"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-primary mb-4">宋雪的专属卡片</h3>
+            <div id="cardContent" class="text-lg leading-relaxed mb-6">
+                今天也是超棒的一天！<br>
+                记得给自己一点奖励哦~
+            </div>
+            <button id="refreshCard" class="bg-primary/20 hover:bg-primary/30 text-primary py-2 px-6 rounded-full transition-colors">
+                换一张卡片
+            </button>
+        </div>
+    </div>
 
-        const jokes = [
-           "为什么数学书总是很忧郁？因为它有太多的问题了。",
+    <!-- 表情包库（默认隐藏） -->
+    <div id="emojiContainer" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-primary">专属表情包库</h3>
+            <button id="closeEmoji" class="text-gray-500 hover:text-dark">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="1">
+                <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/0e3fd4b5ee614ffda2776122e158ad02.png~tplv-a9rns2rl98-24:720:720.png" alt="表情包1" class="w-full h-auto rounded-lg">
+                <p class="mt-2 text-sm">可爱表情1</p>
+            </div>
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="2">
+                <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/e265c6763d7b4b2ba247c19587014126.png~tplv-a9rns2rl98-24:720:720.png" alt="表情包2" class="w-full h-auto rounded-lg">
+                <p class="mt-2 text-sm">可爱表情2</p>
+            </div>
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="3">
+                <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/f082464171e746148ca6f82f7c4d8290.png~tplv-a9rns2rl98-24:720:720.png" alt="表情包3" class="w-full h-auto rounded-lg">
+                <p class="mt-2 text-sm">可爱表情3</p>
+            </div>
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="4">
+                <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/603d186dcbdf4282a17d6728493ca5f1.png~tplv-a9rns2rl98-24:720:720.png" alt="表情包4" class="w-full h-auto rounded-lg">
+                <p class="mt-2 text-sm">可爱表情4</p>
+            </div>
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="5">
+                <i class="fa fa-grin-beam text-5xl text-primary"></i>
+                <p class="mt-2 text-sm">开心</p>
+            </div>
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="6">
+                <i class="fa fa-heart-eyes text-5xl text-primary"></i>
+                <p class="mt-2 text-sm">心动</p>
+            </div>
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="7">
+                <i class="fa fa-star-struck text-5xl text-accent"></i>
+                <p class="mt-2 text-sm">惊喜</p>
+            </div>
+            <div class="emoji-item bg-light p-3 rounded-xl text-center" data-emoji="8">
+                <i class="fa fa-smile-wink text-5xl text-secondary"></i>
+                <p class="mt-2 text-sm">调皮</p>
+            </div>
+        </div>
+        <div class="text-center">
+            <p class="text-gray-500 mb-4">点击表情包可以发送哦~</p>
+            <div id="selectedEmoji" class="hidden justify-center items-center h-32">
+                <img id="selectedEmojiImg" src="" alt="选中的表情包" class="max-h-full max-w-full">
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片轮播（默认隐藏） -->
+    <div id="galleryContainer" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-primary">专属图片集</h3>
+            <button id="closeGallery" class="text-gray-500 hover:text-dark">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="relative">
+            <div class="carousel-container overflow-hidden rounded-2xl mb-4">
+                <div class="carousel-item active">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/0e3fd4b5ee614ffda2776122e158ad02.png~tplv-a9rns2rl98-24:720:720.png" alt="图片1" class="w-full h-auto rounded-2xl">
+                    <p class="text-center mt-2 text-gray-600">美好的回忆</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/e265c6763d7b4b2ba247c19587014126.png~tplv-a9rns2rl98-24:720:720.png" alt="图片2" class="w-full h-auto rounded-2xl">
+                    <p class="text-center mt-2 text-gray-600">开心的瞬间</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/f082464171e746148ca6f82f7c4d8290.png~tplv-a9rns2rl98-24:720:720.png" alt="图片3" class="w-full h-auto rounded-2xl">
+                    <p class="text-center mt-2 text-gray-600">温暖的时刻</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/603d186dcbdf4282a17d6728493ca5f1.png~tplv-a9rns2rl98-24:720:720.png" alt="图片4" class="w-full h-auto rounded-2xl">
+                    <p class="text-center mt-2 text-gray-600">幸福的片段</p>
+                </div>
+            </div>
+            <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-white/80 hover:bg-white text-primary w-10 h-10 rounded-full flex items-center justify-center shadow-md">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 bg-white/80 hover:bg-white text-primary w-10 h-10 rounded-full flex items-center justify-center shadow-md">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="flex justify-center gap-2 mt-4">
+            <button class="carousel-dot w-3 h-3 rounded-full bg-primary" data-index="0"></button>
+            <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300" data-index="1"></button>
+            <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300" data-index="2"></button>
+            <button class="carousel-dot w-3 h-3 rounded-full bg-gray-300" data-index="3"></button>
+        </div>
+    </div>
+
+    <!-- 互动问答（默认隐藏） -->
+    <div id="quizContainer" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-primary">趣味问答挑战</h3>
+            <button id="closeQuiz" class="text-gray-500 hover:text-dark">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div id="quizContent" class="mb-6">
+            <div class="text-xl font-semibold mb-4" id="quizQuestion">准备好开始挑战了吗？点击下方开始按钮吧！</div>
+            <div id="quizOptions" class="space-y-3">
+                <button id="startQuiz" class="w-full bg-primary/20 hover:bg-primary/30 text-primary py-3 px-4 rounded-xl transition-colors">
+                    开始问答挑战
+                </button>
+            </div>
+            <div id="quizFeedback" class="mt-4 text-center hidden"></div>
+            <div class="mt-6 flex justify-between items-center hidden" id="quizNavigation">
+                <button id="prevQuestion" class="bg-gray-200 hover:bg-gray-300 text-dark py-2 px-4 rounded-lg transition-colors">
+                    上一题
+                </button>
+                <span id="questionProgress">1/5</span>
+                <button id="nextQuestion" class="bg-primary/90 hover:bg-primary text-white py-2 px-4 rounded-lg transition-colors">
+                    下一题
+                </button>
+            </div>
+        </div>
+        <div id="quizResult" class="hidden text-center py-6">
+            <h4 class="text-xl font-bold mb-4">挑战结果</h4>
+            <p class="text-lg mb-2">你的得分：<span id="quizScore" class="font-bold text-primary">0</span>/100</p>
+            <p id="quizResultText" class="mb-6"></p>
+            <button id="restartQuiz" class="bg-primary/90 hover:bg-primary text-white py-2 px-6 rounded-full transition-colors">
+                再玩一次
+            </button>
+        </div>
+    </div>
+
+    <!-- 心情记录（默认隐藏） -->
+    <div id="moodContainer" class="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-10 mb-12 hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-primary">今日心情记录</h3>
+            <button id="closeMood" class="text-gray-500 hover:text-dark">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+        <div class="mb-6">
+            <p class="mb-4">今天感觉怎么样？</p>
+            <div class="grid grid-cols-5 gap-2 mb-6">
+                <button class="mood-option flex flex-col items-center p-3 rounded-xl hover:bg-light transition-colors" data-mood="1">
+                    <i class="fa fa-tired text-2xl text-gray-400"></i>
+                    <span class="text-xs mt-1">疲惫</span>
+                </button>
+                <button class="mood-option flex flex-col items-center p-3 rounded-xl hover:bg-light transition-colors" data-mood="2">
+                    <i class="fa fa-meh text-2xl text-gray-500"></i>
+                    <span class="text-xs mt-1">一般</span>
+                </button>
+                <button class="mood-option flex flex-col items-center p-3 rounded-xl hover:bg-light transition-colors" data-mood="3">
+                    <i class="fa fa-smile text-2xl text-yellow-400"></i>
+                    <span class="text-xs mt-1">还好</span>
+                </button>
+                <button class="mood-option flex flex-col items-center p-3 rounded-xl hover:bg-light transition-colors" data-mood="4">
+                    <i class="fa fa-grin text-2xl text-green-400"></i>
+                    <span class="text-xs mt-1">开心</span>
+                </button>
+                <button class="mood-option flex flex-col items-center p-3 rounded-xl hover:bg-light transition-colors" data-mood="5">
+                    <i class="fa fa-grin-stars text-2xl text-primary"></i>
+                    <span class="text-xs mt-1">超棒</span>
+                </button>
+            </div>
+            <div>
+                <label for="moodNote" class="block mb-2">想记录点什么吗？</label>
+                <textarea id="moodNote" rows="4" class="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:border-primary transition-colors" placeholder="今天发生了什么开心或难忘的事..."></textarea>
+            </div>
+        </div>
+        <div class="text-center">
+            <button id="saveMood" class="bg-primary/90 hover:bg-primary text-white py-2 px-6 rounded-full transition-colors">
+                保存心情
+            </button>
+            <div id="moodSaved" class="mt-4 text-center text-green-500 hidden">
+                <i class="fa fa-check-circle"></i> 心情已保存，明天会更好哦！
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部信息 -->
+    <div class="text-center text-dark/60 text-sm">
+        <p>希望这个小页面能给你带来一点点快乐 ❤️</p>
+        <p class="mt-2">累了就早点休息，明天又是美好的一天呀~</p>
+    </div>
+</div>
+
+<!-- 可爱元素容器 -->
+<div id="cuteElementsContainer" class="fixed inset-0 pointer-events-none z-20"></div>
+
+<script>
+    // 数据内容（扩充）
+    const compliments = [
+        "你笑起来的时候，眼睛里像有星星在闪烁，超治愈的！",
+        "今天的你也超有魅力，连走路的样子都带着自信的光芒~",
+        "你的共情能力真的很强，和你聊天总能被温柔对待",
+        "你总是能注意到别人忽略的细节，这点真的很让人佩服",
+        "每次和你相处都觉得时间过得好快，你是个自带快乐磁场的人吧",
+        "你的审美真好，不管是穿衣还是选东西都特别有品味",
+        "你认真做事的时候特别专注，那种劲头特别吸引人",
+        "能认识你真的很幸运，你总能给身边的人带来温暖",
+        "你的声音好好听，尤其是笑起来的时候，像小铃铛一样",
+        "你处理问题的方式总能让人觉得很舒服，特别有条理",
+        "就算是疲惫的时候，你也会努力保持微笑，真的很坚强",
+        "你分享的东西都很有意思，总能发现生活中的小美好"
+    ];
+
+    const jokes = [
+        "为什么数学书总是很忧郁？因为它有太多的问题了。",
         "我最近学会了一项新技能，就是能同时用两只手玩手机，厉害吧？其实是因为一只手没电了...",
         "你知道什么水果最让人感到惊讶吗？是橙（陈）旧的惊喜呀！",
         "为什么程序员总是分不清万圣节和圣诞节？因为 Oct 31 等于 Dec 25 呀（八进制31等于十进制25）",
@@ -247,325 +472,780 @@
         "早上闹钟响，我和它谈判：“再睡5分钟，今天绝对不摸鱼！”结果闹钟真的安静了，直到我迟到，它在包里震个不停，像在说“早说过你会忘！”",
         "买吐司时问老板“软不软？”老板捏了捏说：“比你没睡醒的脸还软～”我刚要笑，老板补了句：“吃完别再睡了，脸会更软哦！”",
         "晚上看星星，我找最亮的那颗当“今日评分”，朋友突然说：“别找了，你刚才笑的时候，眼睛比星星亮多了～”"
-        ];
+    ];
 
-        const motivations = [
-            "今天已经很棒了，不管完成了多少事，你都在认真生活呀，明天继续闪闪发光吧！",
-            "累了就休息，不是放弃，是给身体和心灵充电，为了更好地出发",
-            "你已经比昨天的自己进步了一点点，可能你没发现，但这点滴积累超厉害的",
-            "别担心，所有的困难都会像泡泡一样慢慢消失的，现在的你已经在克服它们了",
-            "你不需要和别人比，每个人的节奏不一样，做自己就已经很优秀了",
-            "每一步小小的坚持，都会在未来某天变成大大的惊喜，相信自己呀",
-            "你的努力，时间都会看在眼里的，现在的辛苦都会变成以后的礼物",
-            "就算今天有点不顺利也没关系，太阳明天还是会升起，你的好运也是",
-            "给自己一点耐心，成长本来就是慢慢来的，你已经走在正确的路上了",
-            "不管别人怎么说，在我眼里你一直都在努力变得更好，这就够了"
-        ];
+    const motivations = [
+        "今天已经很棒了，不管完成了多少事，你都在认真生活呀，明天继续闪闪发光吧！",
+        "累了就休息，不是放弃，是给身体和心灵充电，为了更好地出发",
+        "你已经比昨天的自己进步了一点点，可能你没发现，但这点滴积累超厉害的",
+        "别担心，所有的困难都会像泡泡一样慢慢消失的，现在的你已经在克服它们了",
+        "你不需要和别人比，每个人的节奏不一样，做自己就已经很优秀了",
+        "每一步小小的坚持，都会在未来某天变成大大的惊喜，相信自己呀",
+        "你的努力，时间都会看在眼里的，现在的辛苦都会变成以后的礼物",
+        "就算今天有点不顺利也没关系，太阳明天还是会升起，你的好运也是",
+        "给自己一点耐心，成长本来就是慢慢来的，你已经走在正确的路上了",
+        "不管别人怎么说，在我眼里你一直都在努力变得更好，这就够了"
+    ];
 
-        const blessings = [
-            "今天会有一杯刚好温度的奶茶在等你~",
-            "晚上会做一个甜甜的梦，梦里有吃不完的草莓蛋糕",
-            "明天出门会遇到一件小幸运的事，比如捡到一片超美的叶子",
-            "最近会听到一句让你瞬间开心的夸奖",
-            "周末会有一段完全属于自己的放松时光，什么都不用做",
-            "很快会吃到一口让你惊艳的美食，幸福感爆棚那种",
-            "今天会有人记住你说过的话，并且认真回应你",
-            "晚上泡脚的时候会发现水温刚刚好，舒服到不想起来",
-            "刷手机时会刷到一个超合你胃口的视频，笑到肚子痛",
-            "睡前会收到一句温暖的问候，带着好心情入睡"
-        ];
+    const blessings = [
+        "今天会有一杯刚好温度的奶茶在等你~",
+        "晚上会做一个甜甜的梦，梦里有吃不完的草莓蛋糕",
+        "明天出门会遇到一件小幸运的事，比如捡到一片超美的叶子",
+        "最近会听到一句让你瞬间开心的夸奖",
+        "周末会有一段完全属于自己的放松时光，什么都不用做",
+        "很快会吃到一口让你惊艳的美食，幸福感爆棚那种",
+        "今天会有人记住你说过的话，并且认真回应你",
+        "晚上泡脚的时候会发现水温刚刚好，舒服到不想起来",
+        "刷手机时会刷到一个超合你胃口的视频，笑到肚子痛",
+        "睡前会收到一句温暖的问候，带着好心情入睡"
+    ];
 
-        const cards = [
-            "今天的你，也在认真对待生活呀，值得一个大大的拥抱~",
-            "偶尔偷懒也没关系，不用总是紧绷着，你已经很棒了",
-            "记得多喝水，多微笑，你笑起来的样子比阳光还灿烂",
-            "不管今天发生了什么，都已经过去了，明天又是新的一天",
-            "累了就抱抱自己，你值得被温柔对待，包括被自己温柔对待",
-            "你不需要完美，有小缺点的你才更真实可爱呀",
-            "今天的烦恼，明天再想也不迟，先好好睡一觉吧",
-            "你认真生活的样子，真的特别有魅力，继续加油呀",
-            "别给自己太大压力，慢慢来，一切都会朝着好的方向发展",
-            "你是独一无二的，你的存在本身就很有意义呀"
-        ];
+    const cards = [
+        "今天的你，也在认真对待生活呀，值得一个大大的拥抱~",
+        "偶尔偷懒也没关系，不用总是紧绷着，你已经很棒了",
+        "记得多喝水，多微笑，你笑起来的样子比阳光还灿烂",
+        "不管今天发生了什么，都已经过去了，明天又是新的一天",
+        "累了就抱抱自己，你值得被温柔对待，包括被自己温柔对待",
+        "你不需要完美，有小缺点的你才更真实可爱呀",
+        "今天的烦恼，明天再想也不迟，先好好睡一觉吧",
+        "你认真生活的样子，真的特别有魅力，继续加油呀",
+        "别给自己太大压力，慢慢来，一切都会朝着好的方向发展",
+        "你是独一无二的，你的存在本身就很有意义呀"
+    ];
 
-        // DOM元素
-        const complimentBtn = document.getElementById('complimentBtn');
-        const jokeBtn = document.getElementById('jokeBtn');
-        const motivateBtn = document.getElementById('motivateBtn');
-        const cuteBtn = document.getElementById('cuteBtn');
-        const blessingBtn = document.getElementById('blessingBtn');
-        const bubbleBtn = document.getElementById('bubbleBtn');
-        const cardBtn = document.getElementById('cardBtn');
-        const shareBtn = document.getElementById('shareBtn');
-        const resultArea = document.getElementById('resultArea');
-        const resultText = document.getElementById('resultText');
-        const cuteContainer = document.getElementById('cuteElementsContainer');
-        const musicToggle = document.getElementById('musicToggle');
-        const backgroundMusic = document.getElementById('backgroundMusic');
-        const volumeControl = document.getElementById('volumeControl');
-        const bubbleGame = document.getElementById('bubbleGame');
-        const bubbleContainer = document.getElementById('bubbleContainer');
-        const bubbleScore = document.getElementById('bubbleScore');
-        const closeBubbleGame = document.getElementById('closeBubbleGame');
-        const bubbleInstruction = document.getElementById('bubbleInstruction');
-        const cardContainer = document.getElementById('cardContainer');
-        const cardContent = document.getElementById('cardContent');
-        const closeCard = document.getElementById('closeCard');
-        const refreshCard = document.getElementById('refreshCard');
-
-        // 音乐控制
-        let isPlaying = false;
-        musicToggle.addEventListener('click', () => {
-            if (isPlaying) {
-                backgroundMusic.pause();
-                musicToggle.innerHTML = '<i class="fa fa-music"></i>';
-            } else {
-                backgroundMusic.play().catch(e => {
-                    // 处理浏览器自动播放限制
-                    resultText.textContent = "请点击播放音乐，一起听《江南》吧~";
-                    showResult(resultText.textContent, 'rgba(167, 191, 232, 0.2)');
-                });
-                musicToggle.innerHTML = '<i class="fa fa-pause"></i>';
-            }
-            isPlaying = !isPlaying;
-        });
-
-        volumeControl.addEventListener('input', () => {
-            backgroundMusic.volume = volumeControl.value;
-        });
-
-        // 随机获取内容
-        function getRandomItem(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
+    // 问答数据
+    const quizQuestions = [
+        {
+            question: "宋雪最喜欢的颜色可能是？",
+            options: ["粉色", "蓝色", "绿色", "黄色"],
+            correct: 0,
+            explanation: "粉色代表温柔和可爱，很适合你呢~"
+        },
+        {
+            question: "当宋雪感到疲惫时，最可能做什么？",
+            options: ["看一部轻松的电影", "去跑步", "吃很多零食", "整理房间"],
+            correct: 0,
+            explanation: "放松心情是缓解疲惫的好方法~"
+        },
+        {
+            question: "宋雪觉得最幸福的时刻是？",
+            options: ["吃到美味的食物", "完成一项困难的任务", "和朋友愉快聊天", "以上都是"],
+            correct: 3,
+            explanation: "生活中的小确幸都是幸福的来源呀~"
+        },
+        {
+            question: "宋雪的优点不包括？",
+            options: ["善良体贴", "积极乐观", "轻言放弃", "认真负责"],
+            correct: 2,
+            explanation: "你总是坚持不懈，从不轻言放弃呢！"
+        },
+        {
+            question: "给宋雪一个超能力，她会选？",
+            options: ["瞬间移动", "读心术", "治愈能力", "时间暂停"],
+            correct: 2,
+            explanation: "我猜你希望能治愈自己和身边人的烦恼吧~"
         }
+    ];
 
-        // 显示结果
-        function showResult(text, bgColor) {
-            resultArea.style.backgroundColor = bgColor;
-            resultText.textContent = text;
-            
-            // 添加动画效果
-            resultArea.classList.add('scale-105');
-            setTimeout(() => {
-                resultArea.classList.remove('scale-105');
-            }, 300);
+    // 表情包数据
+    const emojiImages = [
+        "https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/0e3fd4b5ee614ffda2776122e158ad02.png~tplv-a9rns2rl98-24:720:720.png",
+        "https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/e265c6763d7b4b2ba247c19587014126.png~tplv-a9rns2rl98-24:720:720.png",
+        "https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/f082464171e746148ca6f82f7c4d8290.png~tplv-a9rns2rl98-24:720:720.png",
+        "https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/603d186dcbdf4282a17d6728493ca5f1.png~tplv-a9rns2rl98-24:720:720.png"
+    ];
+
+    const emojiTexts = [
+        "这个表情代表我现在很开心！",
+        "看到这个表情就想到你啦~",
+        "这个表情太可爱了，忍不住分享给你",
+        "用这个表情表达我的心情~",
+        "今天的我也是这么开心！😊",
+        "看到你就像这个表情一样心动~😍",
+        "收到你的消息就是这种惊喜的感觉！🤩",
+        "偷偷告诉你一个小秘密~😉"
+    ];
+
+    // DOM元素
+    const complimentBtn = document.getElementById('complimentBtn');
+    const jokeBtn = document.getElementById('jokeBtn');
+    const motivateBtn = document.getElementById('motivateBtn');
+    const cuteBtn = document.getElementById('cuteBtn');
+    const blessingBtn = document.getElementById('blessingBtn');
+    const bubbleBtn = document.getElementById('bubbleBtn');
+    const cardBtn = document.getElementById('cardBtn');
+    const emojiBtn = document.getElementById('emojiBtn');
+    const galleryBtn = document.getElementById('galleryBtn');
+    const quizBtn = document.getElementById('quizBtn');
+    const moodBtn = document.getElementById('moodBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const resultArea = document.getElementById('resultArea');
+    const resultText = document.getElementById('resultText');
+    const cuteContainer = document.getElementById('cuteElementsContainer');
+    const musicToggle = document.getElementById('musicToggle');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    const volumeControl = document.getElementById('volumeControl');
+
+    // 泡泡游戏元素
+    const bubbleGame = document.getElementById('bubbleGame');
+    const bubbleContainer = document.getElementById('bubbleContainer');
+    const bubbleScore = document.getElementById('bubbleScore');
+    const closeBubbleGame = document.getElementById('closeBubbleGame');
+    const bubbleInstruction = document.getElementById('bubbleInstruction');
+
+    // 专属卡片元素
+    const cardContainer = document.getElementById('cardContainer');
+    const cardContent = document.getElementById('cardContent');
+    const closeCard = document.getElementById('closeCard');
+    const refreshCard = document.getElementById('refreshCard');
+
+    // 表情包元素
+    const emojiContainer = document.getElementById('emojiContainer');
+    const closeEmoji = document.getElementById('closeEmoji');
+    const emojiItems = document.querySelectorAll('.emoji-item');
+    const selectedEmoji = document.getElementById('selectedEmoji');
+    const selectedEmojiImg = document.getElementById('selectedEmojiImg');
+
+    // 图片轮播元素
+    const galleryContainer = document.getElementById('galleryContainer');
+    const closeGallery = document.getElementById('closeGallery');
+    const carouselItems = document.querySelectorAll('.carousel-item');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const carouselDots = document.querySelectorAll('.carousel-dot');
+
+    // 问答游戏元素
+    const quizContainer = document.getElementById('quizContainer');
+    const closeQuiz = document.getElementById('closeQuiz');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const startQuiz = document.getElementById('startQuiz');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const quizNavigation = document.getElementById('quizNavigation');
+    const prevQuestion = document.getElementById('prevQuestion');
+    const nextQuestion = document.getElementById('nextQuestion');
+    const questionProgress = document.getElementById('questionProgress');
+    const quizResult = document.getElementById('quizResult');
+    const quizScore = document.getElementById('quizScore');
+    const quizResultText = document.getElementById('quizResultText');
+    const restartQuiz = document.getElementById('restartQuiz');
+
+    // 心情记录元素
+    const moodContainer = document.getElementById('moodContainer');
+    const closeMood = document.getElementById('closeMood');
+    const moodOptions = document.querySelectorAll('.mood-option');
+    const moodNote = document.getElementById('moodNote');
+    const saveMood = document.getElementById('saveMood');
+    const moodSaved = document.getElementById('moodSaved');
+
+    // 音乐控制
+    let isPlaying = false;
+    musicToggle.addEventListener('click', () => {
+        if (isPlaying) {
+            backgroundMusic.pause();
+            musicToggle.innerHTML = '<i class="fa fa-music"></i>';
+        } else {
+            backgroundMusic.play().catch(e => {
+                // 处理浏览器自动播放限制
+                resultText.textContent = "请点击播放音乐，一起听《江南》吧~";
+                showResult(resultText.textContent, 'rgba(167, 191, 232, 0.2)');
+            });
+            musicToggle.innerHTML = '<i class="fa fa-pause"></i>';
         }
+        isPlaying = !isPlaying;
+    });
 
-        // 创建可爱元素
-        function createCuteElement() {
-            const elements = ['❤️', '✨', '🌸', '🐾', '🌟', '🥰', '💖', '☺️', '💐', '💮', '💯'];
-            const element = document.createElement('div');
-            element.textContent = elements[Math.floor(Math.random() * elements.length)];
-            element.classList.add('absolute', 'text-xl', 'md:text-2xl', 'transition-all', 'duration-1000');
-            
-            // 随机位置和动画
-            element.style.left = `${Math.random() * 100}vw`;
-            element.style.top = `${Math.random() * 100}vh`;
+    volumeControl.addEventListener('input', () => {
+        backgroundMusic.volume = volumeControl.value;
+    });
+
+    // 随机获取内容
+    function getRandomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // 显示结果
+    function showResult(text, bgColor) {
+        resultArea.style.backgroundColor = bgColor;
+        resultText.textContent = text;
+
+        // 添加动画效果
+        resultArea.classList.add('scale-105');
+        setTimeout(() => {
+            resultArea.classList.remove('scale-105');
+        }, 300);
+    }
+
+    // 创建可爱元素
+    function createCuteElement() {
+        const elements = ['❤️', '✨', '🌸', '🐾', '🌟', '🥰', '💖', '☺️', '💐', '💮', '💯'];
+        const element = document.createElement('div');
+        element.textContent = elements[Math.floor(Math.random() * elements.length)];
+        element.classList.add('absolute', 'text-xl', 'md:text-2xl', 'transition-all', 'duration-1000');
+
+        // 随机位置和动画
+        element.style.left = `${Math.random() * 100}vw`;
+        element.style.top = `${Math.random() * 100}vh`;
+        element.style.opacity = '0';
+        element.style.transform = `scale(0)`;
+
+        cuteContainer.appendChild(element);
+
+        // 显示动画
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = `scale(1) translateY(-${Math.random() * 100 + 50}px)`;
+        }, 10);
+
+        // 移除元素
+        setTimeout(() => {
             element.style.opacity = '0';
-            element.style.transform = `scale(0)`;
-            
-            cuteContainer.appendChild(element);
-            
-            // 显示动画
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = `scale(1) translateY(-${Math.random() * 100 + 50}px)`;
-            }, 10);
-            
-            // 移除元素
-            setTimeout(() => {
-                element.style.opacity = '0';
-                element.style.transform = `scale(0) translateY(-${Math.random() * 200 + 100}px)`;
-                setTimeout(() => element.remove(), 1000);
-            }, 3000);
-        }
+            element.style.transform = `scale(0) translateY(-${Math.random() * 200 + 100}px)`;
+            setTimeout(() => element.remove(), 1000);
+        }, 3000);
+    }
 
-        // 泡泡游戏
-        let score = 0;
-        let bubbleInterval;
-        let isBubbleGameActive = false;
+    // 泡泡游戏
+    let score = 0;
+    let bubbleInterval;
+    let isBubbleGameActive = false;
 
-        function createBubble() {
-            if (!isBubbleGameActive) return;
-            
-            const bubble = document.createElement('div');
-            const size = Math.random() * 40 + 20; // 20-60px
-            const x = Math.random() * (bubbleContainer.clientWidth - size);
-            const y = Math.random() * (bubbleContainer.clientHeight - size);
-            const duration = Math.random() * 4 + 3; // 3-7秒
-            const color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.6)`;
-            
-            bubble.classList.add('bubble');
-            bubble.style.width = `${size}px`;
-            bubble.style.height = `${size}px`;
-            bubble.style.left = `${x}px`;
-            bubble.style.top = `${y}px`;
-            bubble.style.backgroundColor = color;
-            bubble.style.animation = `float ${duration}s ease-in-out infinite`;
-            
-            // 随机数字
-            bubble.textContent = Math.floor(Math.random() * 5) + 1;
-            
-            // 点击泡泡
-            bubble.addEventListener('click', () => {
-                score += parseInt(bubble.textContent);
-                bubbleScore.textContent = score;
-                bubble.classList.add('bubble-popped');
-                
-                // 移除泡泡
+    function createBubble() {
+        if (!isBubbleGameActive) return;
+
+        const bubble = document.createElement('div');
+        const size = Math.random() * 40 + 20; // 20-60px
+        const x = Math.random() * (bubbleContainer.clientWidth - size);
+        const y = Math.random() * (bubbleContainer.clientHeight - size);
+        const duration = Math.random() * 4 + 3; // 3-7秒
+        const color = `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.6)`;
+
+        bubble.classList.add('bubble');
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${x}px`;
+        bubble.style.top = `${y}px`;
+        bubble.style.backgroundColor = color;
+        bubble.style.animation = `float ${duration}s ease-in-out infinite`;
+
+        // 随机数字
+        bubble.textContent = Math.floor(Math.random() * 5) + 1;
+
+        // 点击泡泡
+        bubble.addEventListener('click', () => {
+            score += parseInt(bubble.textContent);
+            bubbleScore.textContent = score;
+            bubble.classList.add('bubble-popped');
+
+            // 移除泡泡
+            setTimeout(() => {
+                if (bubbleContainer.contains(bubble)) {
+                    bubbleContainer.removeChild(bubble);
+                }
+            }, 300);
+        });
+
+        bubbleContainer.appendChild(bubble);
+
+        // 自动消失
+        setTimeout(() => {
+            if (bubbleContainer.contains(bubble) && !bubble.classList.contains('bubble-popped')) {
+                bubble.style.opacity = '0';
                 setTimeout(() => {
                     if (bubbleContainer.contains(bubble)) {
                         bubbleContainer.removeChild(bubble);
                     }
-                }, 300);
-            });
-            
-            bubbleContainer.appendChild(bubble);
-            
-            // 自动消失
+                }, 500);
+            }
+        }, duration * 1000);
+    }
+
+    function startBubbleGame() {
+        bubbleInstruction.style.display = 'none';
+        score = 0;
+        bubbleScore.textContent = score;
+        isBubbleGameActive = true;
+
+        // 清除之前的定时器
+        if (bubbleInterval) clearInterval(bubbleInterval);
+
+        // 每1秒生成一个泡泡
+        bubbleInterval = setInterval(createBubble, 1000);
+    }
+
+    function stopBubbleGame() {
+        isBubbleGameActive = false;
+        if (bubbleInterval) clearInterval(bubbleInterval);
+
+        // 清除所有泡泡
+        const bubbles = document.querySelectorAll('.bubble');
+        bubbles.forEach(bubble => bubble.remove());
+
+        bubbleInstruction.style.display = 'flex';
+    }
+
+    // 专属卡片
+    function generateCard() {
+        cardContent.innerHTML = getRandomItem(cards).replace(/\n/g, '<br>');
+    }
+
+    // 表情包功能
+    function selectEmoji(index) {
+        // 显示选中的表情包
+        selectedEmoji.classList.remove('hidden');
+        selectedEmoji.classList.add('flex');
+
+        // 设置表情包图片和文字
+        if (index <= 4) {
+            selectedEmojiImg.src = emojiImages[index - 1];
+        } else {
+            // 对于文字表情，创建一个div代替img
+            selectedEmojiImg.style.display = 'none';
+            const textEmoji = document.createElement('div');
+            textEmoji.className = 'text-6xl';
+            textEmoji.innerHTML = ['😊', '😍', '🤩', '😉'][index - 5];
+            selectedEmoji.innerHTML = '';
+            selectedEmoji.appendChild(textEmoji);
+        }
+
+        // 显示对应文字
+        setTimeout(() => {
+            showResult(emojiTexts[index - 1], 'rgba(255, 133, 162, 0.1)');
+            // 关闭表情包界面，回到主界面
             setTimeout(() => {
-                if (bubbleContainer.contains(bubble) && !bubble.classList.contains('bubble-popped')) {
-                    bubble.style.opacity = '0';
-                    setTimeout(() => {
-                        if (bubbleContainer.contains(bubble)) {
-                            bubbleContainer.removeChild(bubble);
-                        }
-                    }, 500);
+                emojiContainer.style.display = 'none';
+                resultArea.style.display = 'flex';
+                selectedEmoji.classList.add('hidden');
+                selectedEmoji.classList.remove('flex');
+                selectedEmojiImg.style.display = 'block';
+                selectedEmoji.innerHTML = '<img id="selectedEmojiImg" src="" alt="选中的表情包" class="max-h-full max-w-full">';
+            }, 1500);
+        }, 800);
+    }
+
+    // 图片轮播功能
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        // 隐藏所有幻灯片
+        carouselItems.forEach(item => item.classList.remove('active'));
+        // 重置所有指示点
+        carouselDots.forEach(dot => dot.classList.remove('bg-primary'));
+        carouselDots.forEach(dot => dot.classList.add('bg-gray-300'));
+
+        // 显示当前幻灯片
+        carouselItems[index].classList.add('active');
+        // 激活当前指示点
+        carouselDots[index].classList.remove('bg-gray-300');
+        carouselDots[index].classList.add('bg-primary');
+
+        currentSlide = index;
+    }
+
+    function nextSlide() {
+        let next = currentSlide + 1;
+        if (next >= carouselItems.length) {
+            next = 0;
+        }
+        showSlide(next);
+    }
+
+    function prevSlide() {
+        let prev = currentSlide - 1;
+        if (prev < 0) {
+            prev = carouselItems.length - 1;
+        }
+        showSlide(prev);
+    }
+
+    // 问答游戏功能
+    let currentQuestion = 0;
+    let userAnswers = [];
+    let quizScoreValue = 0;
+
+    function loadQuestion(index) {
+        const question = quizQuestions[index];
+        quizQuestion.textContent = question.question;
+
+        // 清空选项
+        quizOptions.innerHTML = '';
+
+        // 创建选项
+        question.options.forEach((option, i) => {
+            const optionElement = document.createElement('div');
+            optionElement.className = 'quiz-option p-3 border border-gray-200 rounded-xl';
+            optionElement.textContent = option;
+            optionElement.dataset.index = i;
+
+            // 如果已经回答过，显示答案状态
+            if (userAnswers[index] !== undefined) {
+                if (i === userAnswers[index]) {
+                    optionElement.classList.add(i === question.correct ? 'correct' : 'incorrect');
                 }
-            }, duration * 1000);
-        }
+            }
 
-        function startBubbleGame() {
-            bubbleInstruction.style.display = 'none';
-            score = 0;
-            bubbleScore.textContent = score;
-            isBubbleGameActive = true;
-            
-            // 清除之前的定时器
-            if (bubbleInterval) clearInterval(bubbleInterval);
-            
-            // 每1秒生成一个泡泡
-            bubbleInterval = setInterval(createBubble, 1000);
-        }
+            // 添加点击事件
+            optionElement.addEventListener('click', () => {
+                // 记录答案
+                userAnswers[index] = i;
 
-        function stopBubbleGame() {
-            isBubbleGameActive = false;
-            if (bubbleInterval) clearInterval(bubbleInterval);
-            
-            // 清除所有泡泡
-            const bubbles = document.querySelectorAll('.bubble');
-            bubbles.forEach(bubble => bubble.remove());
-            
-            bubbleInstruction.style.display = 'flex';
-        }
+                // 显示正确/错误状态
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                optionElement.classList.add(i === question.correct ? 'correct' : 'incorrect');
 
-        // 专属卡片
-        function generateCard() {
-            cardContent.innerHTML = getRandomItem(cards).replace(/\n/g, '<br>');
-        }
+                // 显示反馈
+                quizFeedback.classList.remove('hidden');
+                if (i === question.correct) {
+                    quizFeedback.textContent = `正确！${question.explanation}`;
+                    quizFeedback.className = 'mt-4 text-center text-green-500';
+                } else {
+                    quizFeedback.textContent = `答错了~ 正确答案是：${question.options[question.correct]} ${question.explanation}`;
+                    quizFeedback.className = 'mt-4 text-center text-red-500';
+                }
+            });
 
-        // 事件监听
-        complimentBtn.addEventListener('click', () => {
-            showResult(getRandomItem(compliments), 'rgba(255, 133, 162, 0.2)');
+            quizOptions.appendChild(optionElement);
         });
 
-        jokeBtn.addEventListener('click', () => {
-            showResult(getRandomItem(jokes), 'rgba(167, 191, 232, 0.2)');
-        });
+        // 更新进度
+        questionProgress.textContent = `${index + 1}/${quizQuestions.length}`;
 
-        motivateBtn.addEventListener('click', () => {
-            showResult(getRandomItem(motivations), 'rgba(72, 187, 120, 0.2)');
-        });
+        // 控制导航按钮状态
+        prevQuestion.disabled = index === 0;
+        prevQuestion.classList.toggle('opacity-50', index === 0);
+        prevQuestion.classList.toggle('cursor-not-allowed', index === 0);
 
-        cuteBtn.addEventListener('click', () => {
-            resultArea.style.backgroundColor = 'rgba(250, 204, 21, 0.2)';
-            resultText.textContent = '哇！可爱能量发射中~';
-            
-            // 创建多个可爱元素
-            for(let i = 0; i < 20; i++) {
-                setTimeout(() => createCuteElement(), i * 80);
+        if (index === quizQuestions.length - 1) {
+            nextQuestion.textContent = '查看结果';
+        } else {
+            nextQuestion.textContent = '下一题';
+        }
+    }
+
+    function calculateScore() {
+        quizScoreValue = 0;
+        quizQuestions.forEach((question, index) => {
+            if (userAnswers[index] === question.correct) {
+                quizScoreValue += 20;
             }
         });
 
-        blessingBtn.addEventListener('click', () => {
-            showResult(getRandomItem(blessings), 'rgba(6, 214, 160, 0.2)');
+        quizScore.textContent = quizScoreValue;
+
+        // 设置结果文本
+        if (quizScoreValue === 100) {
+            quizResultText.textContent = "太棒了！你对自己的了解满分哦~";
+        } else if (quizScoreValue >= 80) {
+            quizResultText.textContent = "真不错！你很了解自己呢~";
+        } else if (quizScoreValue >= 60) {
+            quizResultText.textContent = "还不错，继续加油呀！";
+        } else {
+            quizResultText.textContent = "没关系，每个人都在不断认识自己呀~";
+        }
+    }
+
+    function startQuizGame() {
+        currentQuestion = 0;
+        userAnswers = [];
+        quizScoreValue = 0;
+
+        // 隐藏开始按钮，显示问题导航
+        startQuiz.classList.add('hidden');
+        quizNavigation.classList.remove('hidden');
+
+        // 加载第一个问题
+        loadQuestion(currentQuestion);
+    }
+
+    function showQuizResult() {
+        calculateScore();
+        quizContent.classList.add('hidden');
+        quizResult.classList.remove('hidden');
+    }
+
+    function restartQuizGame() {
+        quizResult.classList.add('hidden');
+        quizContent.classList.remove('hidden');
+        startQuizGame();
+    }
+
+    // 心情记录功能
+    let selectedMood = null;
+
+    function selectMood(mood) {
+        // 重置所有心情选项
+        moodOptions.forEach(option => {
+            option.classList.remove('bg-primary/10');
+            option.classList.remove('border-primary');
+            option.classList.add('border-transparent');
         });
 
-        bubbleBtn.addEventListener('click', () => {
-            resultArea.style.display = 'none';
-            bubbleGame.style.display = 'block';
-            startBubbleGame();
-        });
+        // 设置选中状态
+        const selectedOption = document.querySelector(`.mood-option[data-mood="${mood}"]`);
+        selectedOption.classList.add('bg-primary/10');
+        selectedOption.classList.add('border-primary');
+        selectedOption.classList.remove('border-transparent');
 
-        closeBubbleGame.addEventListener('click', () => {
-            bubbleGame.style.display = 'none';
+        selectedMood = mood;
+    }
+
+    function saveMoodRecord() {
+        if (!selectedMood) {
+            alert('请先选择你的心情哦~');
+            return;
+        }
+
+        // 显示保存成功消息
+        moodSaved.classList.remove('hidden');
+
+        // 生成心情反馈
+        const moodTexts = [
+            "今天辛苦了，好好休息一下吧~",
+            "一般的日子也有一般的美好，明天会更好的",
+            "还不错的一天呢，继续保持这份好心情",
+            "开心的一天最棒了，希望这份快乐能延续下去",
+            "超棒的一天！为你感到开心，继续闪闪发光吧~"
+        ];
+
+        // 3秒后返回主界面并显示心情反馈
+        setTimeout(() => {
+            showResult(moodTexts[selectedMood - 1], 'rgba(6, 214, 160, 0.2)');
+            moodContainer.style.display = 'none';
             resultArea.style.display = 'flex';
-            stopBubbleGame();
-        });
+            moodSaved.classList.add('hidden');
+            selectedMood = null;
+            moodOptions.forEach(option => {
+                option.classList.remove('bg-primary/10');
+                option.classList.remove('border-primary');
+                option.classList.add('border-transparent');
+            });
+            moodNote.value = '';
+        }, 3000);
+    }
 
-        cardBtn.addEventListener('click', () => {
-            resultArea.style.display = 'none';
-            cardContainer.style.display = 'block';
-            generateCard();
-        });
+    // 事件监听
+    complimentBtn.addEventListener('click', () => {
+        showResult(getRandomItem(compliments), 'rgba(255, 133, 162, 0.2)');
+    });
 
-        closeCard.addEventListener('click', () => {
-            cardContainer.style.display = 'none';
-            resultArea.style.display = 'flex';
-        });
+    jokeBtn.addEventListener('click', () => {
+        showResult(getRandomItem(jokes), 'rgba(167, 191, 232, 0.2)');
+    });
 
-        refreshCard.addEventListener('click', () => {
-            generateCard();
-            // 添加刷新动画
-            cardContent.classList.add('scale-105');
-            setTimeout(() => {
-                cardContent.classList.remove('scale-105');
-            }, 300);
-        });
+    motivateBtn.addEventListener('click', () => {
+        showResult(getRandomItem(motivations), 'rgba(72, 187, 120, 0.2)');
+    });
 
-        shareBtn.addEventListener('click', () => {
-            showResult('虽然不能直接分享，但这份快乐可以记在心里呀~ 下次见面再聊给我听吧！', 'rgba(59, 130, 246, 0.2)');
-            
-            // 隐藏彩蛋：连续点击5次分享按钮
-            let clickCount = 0;
-            shareBtn.addEventListener('click', () => {
-                clickCount++;
-                if (clickCount >= 5) {
-                    showResult('偷偷告诉你：你笑起来的样子，比所有惊喜都动人~', 'rgba(255, 133, 162, 0.3)');
-                    clickCount = 0;
-                    
-                    // 生成爱心雨
-                    for(let i = 0; i < 30; i++) {
-                        setTimeout(() => createCuteElement(), i * 50);
-                    }
+    cuteBtn.addEventListener('click', () => {
+        resultArea.style.backgroundColor = 'rgba(250, 204, 21, 0.2)';
+        resultText.textContent = '哇！可爱能量发射中~';
+
+        // 创建多个可爱元素
+        for(let i = 0; i < 20; i++) {
+            setTimeout(() => createCuteElement(), i * 80);
+        }
+    });
+
+    blessingBtn.addEventListener('click', () => {
+        showResult(getRandomItem(blessings), 'rgba(6, 214, 160, 0.2)');
+    });
+
+    bubbleBtn.addEventListener('click', () => {
+        resultArea.style.display = 'none';
+        bubbleGame.style.display = 'block';
+        startBubbleGame();
+    });
+
+    closeBubbleGame.addEventListener('click', () => {
+        bubbleGame.style.display = 'none';
+        resultArea.style.display = 'flex';
+        stopBubbleGame();
+    });
+
+    cardBtn.addEventListener('click', () => {
+        resultArea.style.display = 'none';
+        cardContainer.style.display = 'block';
+        generateCard();
+    });
+
+    closeCard.addEventListener('click', () => {
+        cardContainer.style.display = 'none';
+        resultArea.style.display = 'flex';
+    });
+
+    refreshCard.addEventListener('click', () => {
+        generateCard();
+        // 添加刷新动画
+        cardContent.classList.add('scale-105');
+        setTimeout(() => {
+            cardContent.classList.remove('scale-105');
+        }, 300);
+    });
+
+    // 表情包事件
+    emojiBtn.addEventListener('click', () => {
+        resultArea.style.display = 'none';
+        emojiContainer.style.display = 'block';
+    });
+
+    closeEmoji.addEventListener('click', () => {
+        emojiContainer.style.display = 'none';
+        resultArea.style.display = 'flex';
+        selectedEmoji.classList.add('hidden');
+        selectedEmoji.classList.remove('flex');
+    });
+
+    emojiItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const emojiIndex = parseInt(item.dataset.emoji);
+            selectEmoji(emojiIndex);
+        });
+    });
+
+    // 图片轮播事件
+    galleryBtn.addEventListener('click', () => {
+        resultArea.style.display = 'none';
+        galleryContainer.style.display = 'block';
+    });
+
+    closeGallery.addEventListener('click', () => {
+        galleryContainer.style.display = 'none';
+        resultArea.style.display = 'flex';
+    });
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    carouselDots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index);
+            showSlide(index);
+        });
+    });
+
+    // 自动轮播
+    let carouselInterval = setInterval(nextSlide, 5000);
+    galleryContainer.addEventListener('mouseenter', () => {
+        clearInterval(carouselInterval);
+    });
+    galleryContainer.addEventListener('mouseleave', () => {
+        carouselInterval = setInterval(nextSlide, 5000);
+    });
+
+    // 问答游戏事件
+    quizBtn.addEventListener('click', () => {
+        resultArea.style.display = 'none';
+        quizContainer.style.display = 'block';
+    });
+
+    closeQuiz.addEventListener('click', () => {
+        quizContainer.style.display = 'none';
+        resultArea.style.display = 'flex';
+        // 重置问答状态
+        quizContent.classList.remove('hidden');
+        quizResult.classList.add('hidden');
+        startQuiz.classList.remove('hidden');
+        quizNavigation.classList.add('hidden');
+        quizFeedback.classList.add('hidden');
+    });
+
+    startQuiz.addEventListener('click', startQuizGame);
+
+    prevQuestion.addEventListener('click', () => {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            loadQuestion(currentQuestion);
+            quizFeedback.classList.add('hidden');
+        }
+    });
+
+    nextQuestion.addEventListener('click', () => {
+        if (currentQuestion < quizQuestions.length - 1) {
+            currentQuestion++;
+            loadQuestion(currentQuestion);
+            quizFeedback.classList.add('hidden');
+        } else {
+            showQuizResult();
+        }
+    });
+
+    restartQuiz.addEventListener('click', restartQuizGame);
+
+    // 心情记录事件
+    moodBtn.addEventListener('click', () => {
+        resultArea.style.display = 'none';
+        moodContainer.style.display = 'block';
+    });
+
+    closeMood.addEventListener('click', () => {
+        moodContainer.style.display = 'none';
+        resultArea.style.display = 'flex';
+        moodSaved.classList.add('hidden');
+        selectedMood = null;
+        moodOptions.forEach(option => {
+            option.classList.remove('bg-primary/10');
+            option.classList.remove('border-primary');
+            option.classList.add('border-transparent');
+        });
+        moodNote.value = '';
+    });
+
+    moodOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const mood = parseInt(option.dataset.mood);
+            selectMood(mood);
+        });
+    });
+
+    saveMood.addEventListener('click', saveMoodRecord);
+
+    // 分享按钮事件
+    shareBtn.addEventListener('click', () => {
+        showResult('虽然不能直接分享，但这份快乐可以记在心里呀~ 下次见面再聊给我听吧！', 'rgba(59, 130, 246, 0.2)');
+
+        // 隐藏彩蛋：连续点击5次分享按钮
+        let clickCount = 0;
+        const shareHandler = () => {
+            clickCount++;
+            if (clickCount >= 5) {
+                showResult('偷偷告诉你：你笑起来的样子，比所有惊喜都动人~', 'rgba(255, 133, 162, 0.3)');
+                clickCount = 0;
+
+                // 生成爱心雨
+                for(let i = 0; i < 30; i++) {
+                    setTimeout(() => createCuteElement(), i * 50);
                 }
-            }, { once: true });
-        });
+                shareBtn.removeEventListener('click', shareHandler);
+            }
+        };
+        shareBtn.addEventListener('click', shareHandler);
+    });
 
-        // 页面加载动画
-        window.addEventListener('load', () => {
-            document.body.classList.add('opacity-0');
-            setTimeout(() => {
-                document.body.classList.remove('opacity-0');
-                document.body.classList.add('transition-opacity', 'duration-1000', 'opacity-100');
-            }, 100);
+    // 页面加载动画
+    window.addEventListener('load', () => {
+        document.body.classList.add('opacity-0');
+        setTimeout(() => {
+            document.body.classList.remove('opacity-0');
+            document.body.classList.add('transition-opacity', 'duration-1000', 'opacity-100');
+        }, 100);
 
-            // 隐藏彩蛋：页面加载5秒后
-            setTimeout(() => {
-                const secretElement = document.createElement('div');
-                secretElement.textContent = '✨';
-                secretElement.classList.add('fixed', 'bottom-4', 'left-4', 'text-2xl', 'pulse-slow', 'cursor-pointer');
-                secretElement.addEventListener('click', () => {
-                    showResult('发现一个小秘密：其实每天都有人在默默为你加油哦~', 'rgba(167, 191, 232, 0.2)');
-                    secretElement.remove();
-                });
-                document.body.appendChild(secretElement);
+        // 隐藏彩蛋：页面加载5秒后
+        setTimeout(() => {
+            const secretElement = document.createElement('div');
+            secretElement.textContent = '✨';
+            secretElement.classList.add('fixed', 'bottom-4', 'left-4', 'text-2xl', 'pulse-slow', 'cursor-pointer');
+            secretElement.addEventListener('click', () => {
+                showResult('发现一个小秘密：其实每天都有人在默默为你加油哦~', 'rgba(167, 191, 232, 0.2)');
+                secretElement.remove();
+            });
+            document.body.appendChild(secretElement);
 
-                // 10秒后自动消失
-                setTimeout(() => secretElement.remove(), 10000);
-            }, 5000);
-        });
-    </script>
+            // 10秒后自动消失
+            setTimeout(() => secretElement.remove(), 10000);
+        }, 5000);
+    });
+</script>
 </body>
 </html>
-
